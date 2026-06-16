@@ -15,8 +15,9 @@ public class PrincipalView extends javax.swing.JFrame {
     private CrearProductoView crearProductoView;
     private ProductoController productoController;
     private ActualizarProductoView actualizarProductoView;
-    private BuscarProductoView buscarProductoView;
     private EliminarProductoView eliminarProductoView;
+    private BuscarProductoView buscarProductoView;
+  
     
 
     /**
@@ -59,10 +60,12 @@ public class PrincipalView extends javax.swing.JFrame {
 
         buscarProductoMenuItem.setMnemonic('s');
         buscarProductoMenuItem.setText("Buscar");
+        buscarProductoMenuItem.addActionListener(this::buscarProductoMenuItemActionPerformed);
         productoMenu.add(buscarProductoMenuItem);
 
         eliminarProductoMenuItem.setMnemonic('a');
         eliminarProductoMenuItem.setText("Eliminar");
+        eliminarProductoMenuItem.addActionListener(this::eliminarProductoMenuItemActionPerformed);
         productoMenu.add(eliminarProductoMenuItem);
 
         actualizarProductoMenuItem.setMnemonic('x');
@@ -123,6 +126,22 @@ public class PrincipalView extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_crearProductoMenuItemActionPerformed
+
+    private void buscarProductoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarProductoMenuItemActionPerformed
+         if (buscarProductoView == null || !buscarProductoView.isVisible() ){
+            buscarProductoView=new BuscarProductoView();
+            buscarProductoView.setVisible(true);
+            desktopPane.add(buscarProductoView);
+         }
+    }//GEN-LAST:event_buscarProductoMenuItemActionPerformed
+
+    private void eliminarProductoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarProductoMenuItemActionPerformed
+         if (eliminarProductoView == null || !eliminarProductoView.isVisible() ){
+            eliminarProductoView=new EliminarProductoView();
+            eliminarProductoView.setVisible(true);
+            desktopPane.add(eliminarProductoView);
+         }
+    }//GEN-LAST:event_eliminarProductoMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
