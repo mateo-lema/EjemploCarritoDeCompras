@@ -14,6 +14,10 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private CrearProductoView crearProductoView;
     private ProductoController productoController;
+    private ActualizarProductoView actualizarProductoView;
+    private BuscarProductoView buscarProductoView;
+    private EliminarProductoView eliminarProductoView;
+    
 
     /**
      * Creates new form PrincipalView
@@ -97,8 +101,15 @@ public class PrincipalView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void actualizarProductoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarProductoMenuItemActionPerformed
+    
+    
 
+    private void actualizarProductoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarProductoMenuItemActionPerformed
+         if (actualizarProductoView == null || !actualizarProductoView.isVisible() ){
+            actualizarProductoView=new ActualizarProductoView();
+            actualizarProductoView.setVisible(true);
+            desktopPane.add(actualizarProductoView);
+         }
     }//GEN-LAST:event_actualizarProductoMenuItemActionPerformed
 
     private void crearProductoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearProductoMenuItemActionPerformed
@@ -108,7 +119,8 @@ public class PrincipalView extends javax.swing.JFrame {
             crearProductoView.setVisible(true);
             desktopPane.add(crearProductoView);
             
-        }
+        }        
+        
 
     }//GEN-LAST:event_crearProductoMenuItemActionPerformed
 
