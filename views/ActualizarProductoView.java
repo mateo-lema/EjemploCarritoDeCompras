@@ -4,6 +4,9 @@
  */
 package ec.edu.ups.carrito.views;
 
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 /**
  *
  * @author mateo
@@ -36,6 +39,10 @@ public class ActualizarProductoView extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Actualizar Producto");
 
         jLabel1.setText("Codigo del producto:");
@@ -59,26 +66,25 @@ public class ActualizarProductoView extends javax.swing.JInternalFrame {
                         .addGap(62, 62, 62)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addGap(50, 50, 50))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel3)
-                                    .addGap(62, 62, 62)))
+                                    .addGap(62, 62, 62))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnActualizar)
+                                        .addComponent(jLabel1))
+                                    .addGap(50, 50, 50)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(73, 73, 73)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtActualizarPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtActualizarNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                                .addComponent(txtCodigoProductoActualizar))))
+                            .addComponent(txtActualizarNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                            .addComponent(txtCodigoProductoActualizar)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(btnActualizar)
-                        .addGap(18, 18, 18)
+                        .addGap(205, 205, 205)
                         .addComponent(btnCancelar)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,8 +103,8 @@ public class ActualizarProductoView extends javax.swing.JInternalFrame {
                     .addComponent(txtActualizarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnActualizar))
                 .addGap(48, 48, 48))
         );
 
@@ -121,6 +127,40 @@ public class ActualizarProductoView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public void setBtnActualizar(JButton btnActualizar) {
+        this.btnActualizar = btnActualizar;
+    }
+
+    public JTextField getTxtActualizarNombre() {
+        return txtActualizarNombre;
+    }
+
+    public void setTxtActualizarNombre(JTextField txtActualizarNombre) {
+        this.txtActualizarNombre = txtActualizarNombre;
+    }
+
+    public JTextField getTxtActualizarPrecio() {
+        return txtActualizarPrecio;
+    }
+
+    public void setTxtActualizarPrecio(JTextField txtActualizarPrecio) {
+        this.txtActualizarPrecio = txtActualizarPrecio;
+    }
+
+    public JTextField getTxtCodigoProductoActualizar() {
+        return txtCodigoProductoActualizar;
+    }
+
+    public void setTxtCodigoProductoActualizar(JTextField txtCodigoProductoActualizar) {
+        this.txtCodigoProductoActualizar = txtCodigoProductoActualizar;
+    }
+    
+    
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
