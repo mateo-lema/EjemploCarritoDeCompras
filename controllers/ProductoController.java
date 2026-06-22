@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.ups.carrito.controllers;
 
 import ec.edu.ups.carrito.DAO.ProductoDAO;
@@ -10,92 +6,92 @@ import ec.edu.ups.carrito.views.ActualizarProductoView;
 import ec.edu.ups.carrito.views.BuscarProductoView;
 import ec.edu.ups.carrito.views.CrearProductoView;
 import ec.edu.ups.carrito.views.EliminarProductoView;
+import ec.edu.ups.carrito.views.ListarProductosView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author mateo
- */
 public class ProductoController {
 
     private CrearProductoView crearProductoView;
     private BuscarProductoView buscarProductoView;
     private EliminarProductoView eliminarProductoView;
     private ActualizarProductoView actualizarProductoView;
+    private ListarProductosView listarProductosView;
     private ProductoDAO productoDAO;
 
-    public ProductoController(CrearProductoView crearProductoView, ProductoDAO productoDAO) {
+    public ProductoController(EliminarProductoView eliminarProductoView, BuscarProductoView buscarProductoView, CrearProductoView crearProductoView, ActualizarProductoView actualizarProductoView, ListarProductosView listarProductosView, ProductoDAO productoDAO) {
         this.crearProductoView = crearProductoView;
-        this.productoDAO = productoDAO;
         configurarEventosCrearProducto();
-    }
-
-    public ProductoController(BuscarProductoView buscarProductoView, ProductoDAO productoDAO) {
         this.buscarProductoView = buscarProductoView;
-        this.productoDAO = productoDAO;
         configurarEventosBuscarProducto();
-    }
-
-    public ProductoController(EliminarProductoView eliminarProductoView, ProductoDAO productoDAO) {
         this.eliminarProductoView = eliminarProductoView;
-        this.productoDAO = productoDAO;
         configurarEventosEliminarProducto();
         configurarEventosBuscarProductoEliminar();
-    }
-
-    public ProductoController(ActualizarProductoView actualizarProductoView, ProductoDAO productoDAO) {
         this.actualizarProductoView = actualizarProductoView;
-        this.productoDAO = productoDAO;
+        configurarEventosBuscarProductoActualizar();
         configurarEventosActualizarProducto();
+        this.listarProductosView = listarProductosView;
+        this.productoDAO = productoDAO;
     }
 
     public void crearProducto() {
+
         int codigo = Integer.parseInt(crearProductoView.getTxtCodigo().getText());
         String nombre = crearProductoView.getTxtNombre().getText();
         double precio = Double.parseDouble(crearProductoView.getTxtPrecio().getText());
 
-        Producto producto = new Producto(codigo, nombre, precio);
-        productoDAO.crear(producto);
-        crearProductoView.mostrarInformacion("Producto creado exitosamente");
+        Producto product = productoDAO.buscar(codigo);
+
+        if (product != null) {
+            crearProductoView.mostrarInformacion("Ya existe un producto con ese código");
+        } else {
+            Producto producto = new Producto(codigo, nombre, precio);
+            productoDAO.crear(producto);
+
+            crearProductoView.mostrarInformacion("Producto creado exitosamente");
+        }
 
     }
 
     public void configurarEventosCrearProducto() {
+
         crearProductoView.getBtnAceptar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 crearProducto();
             }
-
         });
     }
 
     public void buscarProducto() {
+
         int codigo = Integer.parseInt(buscarProductoView.getTxtCodigoProducto().getText());
 
         Producto producto = productoDAO.buscar(codigo);
+
         if (producto != null) {
+
             String nombre = producto.getNombre();
             double precio = producto.getPrecio();
 
             buscarProductoView.getTxtNombreProducto().setText(nombre);
             buscarProductoView.getTxtPrecioProducto().setText(String.valueOf(precio));
+
         } else {
+
             buscarProductoView.mostrarInformacion("No se encontro el producto");
-
         }
-
     }
 
     public void configurarEventosBuscarProducto() {
+
         buscarProductoView.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buscarProducto();
             }
-
         });
     }
 
@@ -105,56 +101,72 @@ public class ProductoController {
                 eliminarProductoView.getTxtCodigoProductoEliminar().getText()
         );
 
-        Producto producto = productoDAO.buscar(codigo);
+        int respuesta = JOptionPane.showConfirmDialog(eliminarProductoView, "¿Deseas eliminar el producto?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            productoDAO.eliminar(codigo);
 
-        if (producto != null) {
+            eliminarProductoView.mostrarInformacion("Producto eliminado");
 
-            int respuesta = JOptionPane.showConfirmDialog(
-                    eliminarProductoView,
-                    "¿Deseas eliminar el producto?",
-                    "Confirmación",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            if (respuesta == JOptionPane.YES_OPTION) {
-                productoDAO.eliminar(producto.getCodigo());
-
-                eliminarProductoView.mostrarInformacion("Producto eliminado");
-
-            }
-
-        } else {
-            eliminarProductoView.mostrarInformacion("No se encontró el producto");
+            eliminarProductoView.getTxtCodigoProductoEliminar().setText("");
+            eliminarProductoView.getTxtNombreProductoEliminar().setText("");
         }
     }
 
     public void configurarEventosEliminarProducto() {
+
         eliminarProductoView.getBtnEliminarProducto().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 eliminarProducto();
             }
-
         });
     }
 
     public void configurarEventosBuscarProductoEliminar() {
+
         eliminarProductoView.getBtnBuscarEliminar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int codigo = Integer.parseInt(
-                        eliminarProductoView.getTxtCodigoProductoEliminar().getText()
-                );
-
+                int codigo = Integer.parseInt(eliminarProductoView.getTxtCodigoProductoEliminar().getText());
                 Producto producto = productoDAO.buscar(codigo);
 
-                if (producto != null) {
-                    eliminarProductoView.getTxtNombreProductoEliminar()
-                            .setText(producto.getNombre());
+                if (producto != null) {eliminarProductoView.getTxtNombreProductoEliminar().setText(producto.getNombre());
                 } else {
                     eliminarProductoView.mostrarInformacion("No se encontró el producto");
                 }
+            }
+        });
+    }
+
+    public void buscarProductoActualizar() {
+
+        int codigo = Integer.parseInt(
+                actualizarProductoView.getTxtCodigoProductoActualizar().getText());
+
+        Producto producto = productoDAO.buscar(codigo);
+
+        if (producto != null) {actualizarProductoView.getTxtActualizarNombre().setText(producto.getNombre());
+
+            actualizarProductoView.getTxtActualizarPrecio().setText(String.valueOf(producto.getPrecio()));
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    actualizarProductoView,
+                    "No se encontró el producto"
+            );
+        }
+    }
+
+    public void configurarEventosBuscarProductoActualizar() {
+
+        actualizarProductoView.getBtnBuscarActualizar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarProductoActualizar();
             }
         });
     }
@@ -163,42 +175,25 @@ public class ProductoController {
 
         int codigo = Integer.parseInt(actualizarProductoView.getTxtCodigoProductoActualizar().getText());
 
-        Producto producto = productoDAO.buscar(codigo);
+        int respuesta = JOptionPane.showConfirmDialog(actualizarProductoView, "¿Deseas actualizar el producto?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
-        if (producto != null) {
+        if (respuesta == JOptionPane.YES_OPTION) {
 
-            int respuesta = JOptionPane.showConfirmDialog(
-                    actualizarProductoView,
-                    "¿Deseas actualizar el producto?",
-                    "Confirmación",
-                    JOptionPane.YES_NO_OPTION
-            );
+            String nombre = actualizarProductoView.getTxtActualizarNombre().getText();
 
-            if (respuesta == JOptionPane.YES_OPTION) {
+            double precio = Double.parseDouble(actualizarProductoView.getTxtActualizarPrecio().getText());
 
-                String nombre = actualizarProductoView.getTxtActualizarNombre().getText();
+            Producto productoActualizado = new Producto();
 
-                double precio = Double.parseDouble(
-                        actualizarProductoView.getTxtActualizarPrecio().getText()
-                );
+            productoActualizado.setCodigo(codigo);
+            productoActualizado.setNombre(nombre);
+            productoActualizado.setPrecio(precio);
 
-                Producto productoActualizado = new Producto();
-                productoActualizado.setCodigo(codigo);
-                productoActualizado.setNombre(nombre);
-                productoActualizado.setPrecio(precio);
+            productoDAO.actualizar(codigo, productoActualizado);
 
-                productoDAO.actualizar(codigo, productoActualizado);
-
-                JOptionPane.showMessageDialog(
-                        actualizarProductoView,
-                        "Producto actualizado correctamente"
-                );
-            }
-
-        } else {
             JOptionPane.showMessageDialog(
                     actualizarProductoView,
-                    "No se encontró el producto"
+                    "Producto actualizado correctamente"
             );
         }
     }
@@ -211,5 +206,13 @@ public class ProductoController {
                 actualizarProducto();
             }
         });
+    }
+
+    public void listarProductos() {
+
+        List<Producto> productos = productoDAO.listar();
+
+        listarProductosView.cargarDatos(productos);
+
     }
 }

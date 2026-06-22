@@ -51,9 +51,15 @@ public class ProductoDAOMemoria implements ProductoDAO {
     public void eliminar(int codigo) {
         Producto productoEncontrado = buscar(codigo);
         if (productoEncontrado != null) {
+
             lista.remove(productoEncontrado);
         }
 
+    }
+
+    @Override
+    public List<Producto> listar() {
+       return lista;
     }
 
 }
